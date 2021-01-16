@@ -1,0 +1,75 @@
+#!/usr/bin/env sh
+
+# load scripting addition in big sur
+sudo yabai --load-sa
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+
+# global settings
+yabai -m config mouse_follows_focus          off
+yabai -m config focus_follows_mouse          off
+yabai -m config window_placement             second_child
+yabai -m config window_topmost               off
+yabai -m config window_opacity               off
+yabai -m config window_shadow                on
+yabai -m config insert_feedback_color        0xaad75f5f
+yabai -m config active_window_opacity        1.0
+yabai -m config normal_window_opacity        0.90
+yabai -m config split_ratio                  0.50
+yabai -m config auto_balance                 off
+yabai -m config mouse_modifier               fn
+yabai -m config mouse_action1                move
+yabai -m config mouse_action2                resize
+
+# general space settings
+yabai -m config layout                       bsp
+yabai -m config top_padding                  0
+yabai -m config bottom_padding               0
+yabai -m config left_padding                 0
+yabai -m config right_padding                0
+yabai -m config window_gap                   06
+
+# rules
+yabai -m rule --add app="^System Preferences$" manage=off
+yabai -m rule --add app="^FaceTime$" manage=off
+yabai -m rule --add app="^Digital Colou?r Meter$" sticky=on
+yabai -m rule --add app="^Adobe" manage=off
+yabai -m rule --add app="Photo Booth" manage=off
+yabai -m rule --add app="Simulator" manage=off
+yabai -m rule --add app="Loopback" manage=off
+
+# Move certain windows to various spaces
+yabai -m rule --add title="basic_space" space=1
+yabai -m rule --add title="stat_window" space=2
+yabai -m rule --add app="Slack" space=4
+yabai -m rule --add app="Telegram" space=4
+yabai -m rule --add app="Messages" space=4
+yabai -m rule --add app="WhatsApp" space=4
+yabai -m rule --add app="Discord" space=4
+
+# Stack all terminals and vim windows together
+
+function org {
+  read wins
+  direction=$1
+  len=$(echo $wins | jq 'length')
+
+  if (( len > 0 )); then
+    src=$(echo $wins | jq '.[0] | .id')
+
+    # Move the window on the correct side of the screen
+    yabai -m window $src --warp $direction
+
+    if (( len > 1 )); then
+
+      for i in $(seq 1 $(expr $len - 1)); do
+        id=$(echo $wins | jq ".[$i] | .id")
+        yabai -m window $src --stack $id
+      done
+    fi
+  fi
+}
+
+for space in $(seq 1 2); do
+  yabai -m query --windows --space $space | jq -c '.[] | select(.app == "VimR" or .app == "iTerm2")' | jq -c -s | org west
+  yabai -m query --windows --space $space | jq -c '.[] | select(.app != "VimR" and .app != "iTerm2")' | jq -c -s | org east
+done

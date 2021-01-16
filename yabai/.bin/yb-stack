@@ -1,0 +1,16 @@
+#!/bin/bash
+
+src=`yabai -m query --windows --window | jq ".id"`
+
+if [ $1 == 'app' ]; then
+  # stack target into the stack with the same app
+  app=`yabai -m query --windows --window | jq ".app"`
+  target=`yabai -m query --windows | jq ".[] | select((.app == ${app}) and .id != ${src}) | .id"`
+else
+  # stack target onto source
+  target=`yabai -m query --windows --window $1 | jq ".id"`
+fi
+
+if [[ $target != '' && $target != $src ]]; then
+  yabai -m window $target --stack $src
+fi

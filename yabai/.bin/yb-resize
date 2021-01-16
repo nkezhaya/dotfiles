@@ -1,0 +1,14 @@
+#!/bin/bash
+
+VAL=10
+
+if [ $1 == 'inc' ]; then
+  INC=$VAL
+elif [ $1 == 'dec' ]; then
+  INC=-$VAL
+else
+  echo "Usage: yb-resize (inc|dec)"
+  exit -1
+fi
+
+yabai -m window --resize left:$INC:0 || yabai -m window --resize right:$INC:0

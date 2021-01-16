@@ -1,0 +1,24 @@
+#!/bin/bash
+
+case "$1" in
+  left)
+    yabai -m window --focus west || yabai -m display --focus next
+    ;;
+  down)
+    yabai -m window --focus south
+    ;;
+  up)
+    yabai -m window --focus north
+    ;;
+  right)
+    yabai -m window --focus east || yabai -m display --focus prev
+    ;;
+  stackprev)
+    yabai -m window --focus stack.prev || yabai -m window --focus stack.last
+    ;;
+  stacknext)
+    yabai -m window --focus stack.next || yabai -m window --focus stack.first
+    ;;
+  *)
+    exit 1
+esac
