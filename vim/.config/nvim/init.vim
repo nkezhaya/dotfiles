@@ -25,19 +25,23 @@ Plug 'honza/vim-snippets'
 Plug 'elixir-editors/vim-elixir'
 Plug 'mhinz/vim-mix-format'
 Plug 'MaxMEllon/vim-jsx-pretty'
+Plug 'udalov/kotlin-vim'
+Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 
 " colors
 Plug 'arcticicestudio/nord-vim'
-Plug 'dracula/vim'
+Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'Rigellute/rigel'
 Plug 'cocopon/iceberg.vim'
 Plug 'flrnd/candid.vim'
 Plug 'morhetz/gruvbox'
 Plug 'joshdick/onedark.vim'
 Plug 'altercation/vim-colors-solarized'
-Plug 'embark-theme/vim'
+Plug 'embark-theme/vim', { 'as': 'embark' }
 Plug 'sainnhe/sonokai'
 Plug 'ghifarit53/tokyonight-vim'
+Plug 'sainnhe/everforest'
+Plug 'ayu-theme/ayu-vim'
 call plug#end()
 
 " Leader key
@@ -85,6 +89,12 @@ let g:user_emmet_settings = {
     \      'extends' : 'jsx',
     \  },
   \}
+
+let g:user_emmet_install_global = 0
+autocmd FileType html,css,eelixir EmmetInstall
+
+" Cadence files are basically Kotlin
+au BufRead,BufNewFile *.cdc set filetype=kotlin
 
 set number
 set scrolloff=5
@@ -226,4 +236,5 @@ nnoremap <leader>- :split<CR>
 " Go to definition with "gf"
 nnoremap gf :ALEGoToDefinition<CR>
 
-colorscheme tokyonight 
+let ayucolor="mirage"
+colorscheme ayu

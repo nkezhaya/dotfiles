@@ -41,6 +41,7 @@ yabai -m rule --add app="Loopback" manage=off
 yabai -m rule --add title="basic_space" space=1
 yabai -m rule --add title="stat_window" space=2
 yabai -m rule --add app="Slack" space=4
+yabai -m rule --add app="Signal" space=4
 yabai -m rule --add app="Telegram" space=4
 yabai -m rule --add app="Messages" space=4
 yabai -m rule --add app="WhatsApp" space=4
@@ -69,7 +70,13 @@ function org {
   fi
 }
 
+yb-balance --bsp
+
+query='("VimR","iTerm2","Code")'
+
 for space in $(seq 1 2); do
-  yabai -m query --windows --space $space | jq -c '.[] | select(.app == "VimR" or .app == "iTerm2")' | jq -c -s | org west
-  yabai -m query --windows --space $space | jq -c '.[] | select(.app != "VimR" and .app != "iTerm2")' | jq -c -s | org east
+  yabai -m query --windows --space $space | jq -c ".[] | select(.app == $query)" | jq -c -s | org west
+  yabai -m query --windows --space $space | jq -c ".[] | select(.app != $query)" | jq -c -s | org east
 done
+
+yb-balance
