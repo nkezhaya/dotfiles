@@ -1,7 +1,15 @@
 #!/bin/bash
 
-for space in $(seq 1 4); do
-  yabai -m space $space --layout bsp
+if [[ $* == *space* ]]; then
+  spaces=$(yabai -m query --spaces --space | jq '.index')
+else
+  spaces=$(yabai -m query --spaces | jq '.[] | select(."native-fullscreen" == 0) | .index')
+fi
+
+for space in $spaces; do
+  if [[ $* == *bsp* ]]; then
+    yabai -m space $space --layout bsp
+  fi
+
   yabai -m space $space --balance
 done
-
