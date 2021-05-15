@@ -9,6 +9,7 @@ Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-projectionist'
 
 " lint
 Plug 'dense-analysis/ale'
@@ -78,12 +79,27 @@ let g:mix_format_on_save = 1
 " Escape to close floating windows
 nmap <Esc> :call coc#float#close_all() <CR>
 
+" Tab to autocomplete
+function! Tab_Or_Complete()
+  if col('.')>1 && strpart( getline('.'), col('.')-2, 3 ) =~ '^\w'
+    return "\<C-N>"
+  else
+    return "\<Tab>"
+  endif
+endfunction
+
+inoremap <Tab> <C-R>=Tab_Or_Complete()<CR>
+
+" ,<Tab>
+imap <C-j> <Plug>snipMateNextOrTrigger
+
 " FZF
 let $FZF_DEFAULT_COMMAND = 'ag -g "" --ignore "node_modules"'
 
 " Emmet
-" To autocomplete in insert mode: <Tab>,
-let g:user_emmet_leader_key = '<Tab>'
+" To autocomplete in insert mode: <C-J>
+let g:user_emmet_leader_key = '<C-J>'
+let g:user_emmet_expandabbr_key = ''
 let g:user_emmet_settings = {
   \  'javascript.jsx' : {
     \      'extends' : 'jsx',
@@ -236,5 +252,4 @@ nnoremap <leader>- :split<CR>
 " Go to definition with "gf"
 nnoremap gf :ALEGoToDefinition<CR>
 
-let ayucolor="mirage"
-colorscheme ayu
+colorscheme dracula
