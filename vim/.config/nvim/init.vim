@@ -3,6 +3,10 @@ let g:python_host_prog = '/usr/local/bin/python2'
 let g:python3_host_prog = '/usr/local/bin/python3'
 
 call plug#begin()
+
+" Sensible defaults
+Plug 'tpope/vim-sensible'
+
 Plug 'Shougo/defx.nvim'
 Plug 'mattn/emmet-vim'
 Plug 'junegunn/fzf'
@@ -10,6 +14,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-projectionist'
+Plug 'tpope/vim-surround'
 
 " lint
 Plug 'dense-analysis/ale'
