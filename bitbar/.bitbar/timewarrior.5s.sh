@@ -11,12 +11,12 @@ export PATH=/usr/local/bin:$PATH
 
 if [[ "$1" = "stop" ]]; then
   timew stop
-elif [[ "$1" = "cont1" ]]; then
-  timew continue @1
-elif [[ "$1" = "cont2" ]]; then
-  timew continue @2
 elif [[ "$1" = "bscall" ]]; then
   timew track BS Call
+elif [[ $1 = cont* ]]; then
+  arg=$1
+  taskid=${arg:4}
+  timew continue @$taskid
 fi
 
 if [[ $(timew | head -n1) =~ 'no active time tracking' ]]; then
@@ -27,7 +27,14 @@ else
 fi
 
 echo "---"
-echo "Continue @1 | bash='$0' param1=cont1 terminal=false refresh=true"
-echo "Continue @2 | bash='$0' param1=cont2 terminal=false refresh=true"
+
+i=1
+while read -r proc; do
+  if [ -n "$proc" ]; then
+    echo "Continue $proc | bash='$0' param1=cont$i terminal=false refresh=true"
+    ((i+=1))
+  fi
+done <<< "$(timew tagsum | tac)"
+
 echo "BS Call | bash='$0' param1=bscall terminal=false refresh=true"
 echo "Stop timewarrior | bash='$0' param1=stop terminal=false refresh=true"

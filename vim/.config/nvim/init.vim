@@ -22,17 +22,21 @@ Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'amiralies/coc-elixir', {'do': 'yarn install && yarn prepack'}
 
 " snippets
+Plug 'garbas/vim-snipmate'
+let g:snipMate = { 'snippet_version' : 1 }
+
 Plug 'tomtom/tlib_vim'
 Plug 'MarcWeber/vim-addon-mw-utils'
-Plug 'garbas/vim-snipmate'
 Plug 'honza/vim-snippets'
 
 " lang-specific
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'elixir-editors/vim-elixir'
 Plug 'mhinz/vim-mix-format'
 Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'udalov/kotlin-vim'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+Plug 'iamcco/coc-tailwindcss',  {'do': 'yarn install --frozen-lockfile && yarn run build'}
 
 " colors
 Plug 'arcticicestudio/nord-vim'
@@ -79,10 +83,37 @@ let g:ale_sign_warning = '--'
 let g:mix_format_elixir_bin_path = trim(system('asdf where elixir')) . '/bin'
 let g:mix_format_on_save = 1
 
+""" TreeSitter
+
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  highlight = {
+    enable = true,              -- false will disable the whole extension
+    disable = { "elixir" },  -- list of language that will be disabled
+    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+    -- Using this option may slow down your editor, and you may see some duplicate highlights.
+    -- Instead of true it can also be a list of languages
+    additional_vim_regex_highlighting = false,
+  },
+  incremental_selection = {
+    enable = true,
+  },
+  indent = {
+    enable = true,
+    disable = { "elixir" },
+  },
+}
+EOF
+
 """ CoC
 
 " Escape to close floating windows
 nmap <Esc> :call coc#float#close_all() <CR>
+
+" Go to definition with "gf"
+nnoremap gf :call CocAction('jumpDefinition')<CR>
 
 " Tab to autocomplete
 function! Tab_Or_Complete()
@@ -102,9 +133,7 @@ imap <C-j> <Plug>snipMateNextOrTrigger
 let $FZF_DEFAULT_COMMAND = 'ag -g "" --ignore "node_modules"'
 
 " Emmet
-" To autocomplete in insert mode: <C-J>
-let g:user_emmet_leader_key = '<C-J>'
-let g:user_emmet_expandabbr_key = ''
+" To autocomplete in insert mode: <C-y>,
 let g:user_emmet_settings = {
   \  'javascript.jsx' : {
     \      'extends' : 'jsx',
@@ -112,7 +141,7 @@ let g:user_emmet_settings = {
   \}
 
 let g:user_emmet_install_global = 0
-autocmd FileType html,css,eelixir EmmetInstall
+autocmd FileType html,css,eelixir,elixir EmmetInstall
 
 " Cadence files are basically Kotlin
 au BufRead,BufNewFile *.cdc set filetype=kotlin
@@ -129,6 +158,9 @@ set completeopt-=preview
 
 " EEx highlighting in Elixir modules
 syntax region elixirTemplateSigil matchgroup=elixirSigilDelimiter keepend start=+\~E\z("""\)+ end=+^\s*\z1+ skip=+\\"+ contains=@HTML fold
+
+" EEx highlighting in .heex files
+autocmd BufNewFile,BufRead *.html.heex set syntax=eelixir
 
 " Defx options
 autocmd FileType defx call s:defx_my_settings()
@@ -254,7 +286,7 @@ nnoremap <leader>j :Files<CR>
 nnoremap <leader>\| :vsplit<CR>
 nnoremap <leader>- :split<CR>
 
-" Go to definition with "gf"
-nnoremap gf :ALEGoToDefinition<CR>
-
 colorscheme dracula
+
+" :evimrc for editing the vim rc
+command Evimrc edit $MYVIMRC
