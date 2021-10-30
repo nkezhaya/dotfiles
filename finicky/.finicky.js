@@ -7,6 +7,7 @@ module.exports = {
         "basic.space/*",
         "*.basic.space",
         "*.basic.space/*",
+        "docs.google.com"
       ],
       browser: {
         name: "Google Chrome",
