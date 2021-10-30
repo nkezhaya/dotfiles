@@ -31,7 +31,6 @@ JSON.parse(json).group_by { |item|
 }.select { |date, item|
   date.to_s == Date.today.to_s
 }.map { |date, date_items|
-
   # Group by the tag/activity
   date_items.group_by { |item|
     item["tags"]
