@@ -1,0 +1,3 @@
+#!/bin/bash
+
+echo -ne $(/usr/local/bin/timew | head -n1) - $(/usr/local/bin/timew today | tail -n2 | xargs) hrs today
