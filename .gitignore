@@ -2,5 +2,3 @@ vim/.config/nvim/plugged
 vim/.config/nvim/.netrwhist
 tmux/.tmux/plugins
 timewarrior/.timewarrior/data
-spotify/.config/spotify-tui/.spotify_token_cache.json
-spotify/.config/spotify-tui/client.yml
