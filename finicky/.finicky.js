@@ -7,7 +7,9 @@ module.exports = {
         "basic.space/*",
         "*.basic.space",
         "*.basic.space/*",
-        "docs.google.com"
+        "docs.google.com",
+        "sentry.io",
+        "sentry.io/*"
       ],
       browser: {
         name: "Google Chrome",
@@ -22,7 +24,7 @@ module.exports = {
       }
     },
     {
-      match: ["quickbooks.com", "quickbooks.com/*"],
+      match: ["quickbooks.com", "quickbooks.com/*", "intuit.com", "intuit.com/*", "qbo.intuit.com", "qbo.intuit.com/*"],
       browser: {
         name: "Google Chrome",
         profile: "Profile 1"
