@@ -23,6 +23,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'dense-analysis/ale'
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'amiralies/coc-elixir', {'do': 'yarn install && yarn prepack'}
+Plug 'clangd/coc-clangd'
 
 " snippets
 "Plug 'garbas/vim-snipmate'
@@ -42,6 +43,7 @@ Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'udalov/kotlin-vim'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 Plug 'iamcco/coc-tailwindcss',  {'do': 'yarn install --frozen-lockfile && yarn run build'}
+Plug 'chrisbra/csv.vim'
 
 " colors
 Plug 'arcticicestudio/nord-vim'
@@ -168,6 +170,9 @@ syntax region elixirTemplateSigil matchgroup=elixirSigilDelimiter keepend start=
 " EEx highlighting in .heex files
 autocmd BufNewFile,BufRead *.html.heex set syntax=eelixir
 
+" pgFormatter for SQL
+au FileType sql setl formatprg=/usr/local/bin/pg_format\ -
+
 " Defx options
 autocmd FileType defx call s:defx_my_settings()
 function! s:defx_my_settings() abort
@@ -290,6 +295,7 @@ endif
 
 nnoremap <leader>\| :vsplit<CR>
 nnoremap <leader>- :split<CR>
+nnoremap <leader>t :tabnew<CR>
 
 colorscheme dracula
 
