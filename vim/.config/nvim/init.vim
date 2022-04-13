@@ -80,12 +80,7 @@ nnoremap <Leader>/ :Ack!<Space>
 " Don't jump to first match
 cnoreabbrev Ack Ack!
 
-" ALE
-let g:ale_linters_explicit = 1
-let g:ale_lint_on_save = 0
-let g:ale_completion_enabled = 0
-let g:ale_sign_error = '✘'
-let g:ale_sign_warning = '--'
+" mix format
 let g:mix_format_elixir_bin_path = trim(system('asdf where elixir')) . '/bin'
 let g:mix_format_on_save = 1
 
