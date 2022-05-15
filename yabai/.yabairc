@@ -37,6 +37,7 @@ yabai -m rule --add app="^(DOSBox|dosbox)" manage=off
 yabai -m rule --add app="Photo Booth" manage=off
 yabai -m rule --add app="Simulator" manage=off
 yabai -m rule --add app="Loopback" manage=off
+yabai -m rule --add app="Steam" manage=off
 
 # Move certain windows to various spaces
 yabai -m rule --add title="basic_space" space=1
