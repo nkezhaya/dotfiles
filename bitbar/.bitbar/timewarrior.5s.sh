@@ -7,7 +7,7 @@
 # <bitbar.desc>Shows the current timewarrior status</bitbar.desc>
 # <bitbar.dependencies>timewarrior</bitbar.dependencies>
 
-export PATH=/usr/local/bin:$PATH
+export PATH=/opt/homebrew/bin:/usr/local/bin:$PATH
 
 if [[ "$1" = "stop" ]]; then
   timew stop

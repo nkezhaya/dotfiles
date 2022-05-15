@@ -1,6 +1,6 @@
 " Python 3 location
-let g:python_host_prog = '/usr/local/bin/python2'
-let g:python3_host_prog = '/usr/local/bin/python3'
+let g:python_host_prog = '/opt/homebrew/bin/python2'
+let g:python3_host_prog = '/opt/homebrew/bin/python3'
 
 call plug#begin()
 
@@ -88,10 +88,15 @@ let g:mix_format_on_save = 1
 
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = "all", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  -- A list of parser names, or "all"
+  ensure_installed = {},
+
   highlight = {
-    enable = true,              -- false will disable the whole extension
-    disable = { "elixir" },  -- list of language that will be disabled
+    -- false will disable the whole extension
+    enable = true,
+
+    disable = { "elixir" },
+
     -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
     -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
     -- Using this option may slow down your editor, and you may see some duplicate highlights.
