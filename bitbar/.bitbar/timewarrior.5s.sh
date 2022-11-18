@@ -28,13 +28,12 @@ fi
 
 echo "---"
 
-i=1
 while read -r proc; do
   if [ -n "$proc" ]; then
+    i=$(echo $proc | grep -o -E '[0-9]+' | head -n1)
     echo "Continue $proc | bash='$0' param1=cont$i terminal=false refresh=true"
-    ((i+=1))
   fi
-done <<< "$(timew tagsum | tac)"
+done <<< "$(timew tagsum)"
 
 echo "BS Call | bash='$0' param1=bscall terminal=false refresh=true"
 echo "Stop timewarrior | bash='$0' param1=stop terminal=false refresh=true"

@@ -15,6 +15,13 @@ ARGF.read.each_line do |line|
   end
 end
 
-JSON.parse(json).select { |item| item["id"] <= 10 }.each { |item|
-  puts "@#{item["id"]} #{item["tags"].join(", ")}"
+JSON.parse(json).map { |item|
+  { id: item["id"], tags: item["tags"].join(", ") }
+}.reverse.reduce([]) { |acc, item|
+  break acc if acc.count >= 10
+  next acc if acc.any? { |i| i[:tags] == item[:tags] }
+
+  acc.push(item)
+}.each { |item|
+  puts "@#{item[:id]} #{item[:tags]}"
 }

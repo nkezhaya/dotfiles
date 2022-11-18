@@ -81,10 +81,6 @@ JSON.parse(json).select { |item| !!item["end"] }.group_by { |item|
 #  puts row.join(",")
 #}
 
-config = {
-  encoding: 'ISO-8859-1'
-}
-
-puts CSV.generate(config) { |csv|
+puts CSV.generate() { |csv|
   rows.each { |row| csv << row }
 }
