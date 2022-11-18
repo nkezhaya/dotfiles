@@ -1,5 +1,8 @@
 module.exports = {
-  defaultBrowser: "Google Chrome",
+  defaultBrowser: {
+    name: "Google Chrome",
+    profile: "Profile 1"
+  },
   handlers: [
     {
       match: [
@@ -7,6 +10,7 @@ module.exports = {
         "basic.space/*",
         "*.basic.space",
         "*.basic.space/*",
+        "*basicspace*",
         "docs.google.com",
         "sentry.io",
         "sentry.io/*"
