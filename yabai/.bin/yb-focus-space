@@ -1,0 +1,6 @@
+#!/bin/bash
+
+NON_NATIVE_SPACES=( $(yabai -m query --spaces | jq '.[] | select(."is-native-fullscreen" == false) | .index') )
+INDEX=$(expr $1 - 1)
+
+yabai -m space --focus ${NON_NATIVE_SPACES[$INDEX]}
