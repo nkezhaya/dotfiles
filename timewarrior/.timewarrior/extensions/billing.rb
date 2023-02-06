@@ -66,20 +66,13 @@ JSON.parse(json).select { |item| !!item["end"] }.group_by { |item|
     hours = (total_seconds / 3600.0).round_to_quarter
 
     row << Date.parse(date).strftime("%m/%d/%y")
-    row << ""
     row << Time.at(total_seconds).utc.strftime("%H:%M:%S")
     row << hours
-    row << ""
-    row << ""
     tags.reject { |t| t == client_tag }.each { |t| row << t }
 
     rows << row
   }
 }
-
-#rows.each { |row|
-#  puts row.join(",")
-#}
 
 puts CSV.generate() { |csv|
   rows.each { |row| csv << row }
