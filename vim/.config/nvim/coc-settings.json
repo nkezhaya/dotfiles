@@ -1,5 +1,5 @@
 {
   "elixir.pathToElixirLS": "~/Code/elixir-ls/release/language_server.sh",
   "tailwindCSS.headwind.runOnSave": false,
-  "coc.preferences.jumpCommand": "vsplit"
+  "coc.preferences.jumpCommand": "tabe"
 }
