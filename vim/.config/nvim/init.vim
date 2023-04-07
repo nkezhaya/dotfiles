@@ -1,6 +1,6 @@
 " Python 3 location
 let g:python_host_prog = '/opt/homebrew/bin/python2'
-let g:python3_host_prog = '/opt/homebrew/bin/python3'
+let g:python3_host_prog = '/opt/homebrew/bin/python3.10'
 
 call plug#begin()
 
@@ -40,7 +40,7 @@ Plug 'elixir-editors/vim-elixir'
 Plug 'mhinz/vim-mix-format'
 Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'udalov/kotlin-vim'
-Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --production' }
 Plug 'iamcco/coc-tailwindcss',  {'do': 'yarn install --frozen-lockfile && yarn run build'}
 Plug 'chrisbra/csv.vim'
 
@@ -119,18 +119,11 @@ EOF
 nmap <Esc> :call coc#float#close_all() <CR>
 
 " Go to definition with "gf"
-nnoremap gf :call CocAction('jumpDefinition')<CR>
+nmap <silent> gf <Plug>(coc-definition)
 
-" Tab to autocomplete
-function! Tab_Or_Complete()
-  if col('.')>1 && strpart( getline('.'), col('.')-2, 3 ) =~ '^\w'
-    return "\<C-N>"
-  else
-    return "\<Tab>"
-  endif
-endfunction
-
-inoremap <Tab> <C-R>=Tab_Or_Complete()<CR>
+" Enter to autocomplete
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " ,<Tab>
 imap <C-j> <Plug>snipMateNextOrTrigger
@@ -148,7 +141,7 @@ let g:user_emmet_settings = {
   \}
 
 let g:user_emmet_install_global = 0
-autocmd FileType html,css,eelixir,elixir EmmetInstall
+autocmd FileType html,css,eelixir EmmetInstall
 
 " Cadence files are basically Kotlin
 au BufRead,BufNewFile *.cdc set filetype=kotlin
