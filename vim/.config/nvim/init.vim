@@ -118,8 +118,11 @@ EOF
 " Escape to close floating windows
 nmap <Esc> :call coc#float#close_all() <CR>
 
-" Go to definition with "gf"
+" Go to definition in a new tab with "gf"
 nmap <silent> gf <Plug>(coc-definition)
+
+" Go to definition in the current tab with "gs"
+nmap <silent> gs :call CocAction('jumpDefinition', 'edit')<CR>
 
 " Enter to autocomplete
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
@@ -164,6 +167,7 @@ autocmd BufNewFile,BufRead *.html.heex set syntax=eelixir
 
 " pgFormatter for SQL
 au FileType sql setl formatprg=/usr/local/bin/pg_format\ -
+vmap <C-f> <ESC>:'<,'>! pg_format --no-space-function --function-case 2<CR>
 
 " Defx options
 autocmd FileType defx call s:defx_my_settings()
@@ -287,7 +291,7 @@ endif
 
 nnoremap <leader>\| :vsplit<CR>
 nnoremap <leader>- :split<CR>
-nnoremap <leader>t :tabnew<CR>
+nnoremap <leader>t :tab split<CR>
 
 colorscheme dracula
 
