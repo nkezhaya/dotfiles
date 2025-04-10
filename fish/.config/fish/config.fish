@@ -13,6 +13,13 @@ set -gx GPG_TTY (tty)
 # Ruby, rbenv
 status --is-interactive; and source (rbenv init -|psub)
 
-source /opt/homebrew/opt/asdf/libexec/asdf.fish
+# Spicetify
+fish_add_path /Users/nkezhaya/.spicetify
 
-test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
+# asdf
+fish_add_path "$ASDF_DIR/bin"
+fish_add_path "$HOME/.asdf/shims"
+
+if status --is-interactive && type -q asdf
+  source (brew --prefix asdf)/libexec/asdf.fish
+end
