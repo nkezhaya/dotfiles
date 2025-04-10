@@ -18,6 +18,7 @@ Plug 'tpope/vim-surround'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'stevearc/oil.nvim'
 
 " lint
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
@@ -37,7 +38,7 @@ Plug 'honza/vim-snippets'
 " lang-specific
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'elixir-editors/vim-elixir'
-Plug 'mhinz/vim-mix-format'
+" Plug 'mhinz/vim-mix-format'
 Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'udalov/kotlin-vim'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --production' }
@@ -130,6 +131,13 @@ inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
 
 " ,<Tab>
 imap <C-j> <Plug>snipMateNextOrTrigger
+
+" Oil
+lua <<EOF
+  require("oil").setup({
+    default_file_explorer = true,
+  })
+EOF
 
 " FZF
 let $FZF_DEFAULT_COMMAND = 'ag -g "" --ignore "node_modules"'
@@ -240,7 +248,8 @@ endfunction
 nnoremap <leader>df :Defx `expand('%:p:h')` -split=vertical -winwidth=50 -direction=topleft -search=`expand('%:p')`<CR>
 
 " Ctrl-\ for netrw replacement
-nnoremap <C-\> :Defx `expand('%:p:h')` -search=`expand('%:p')`<CR>
+" nnoremap <C-\> :Defx `expand('%:p:h')` -search=`expand('%:p')`<CR>
+nnoremap <C-\> :Oil<CR>
 
 " Turn backup off, since most stuff is in an SCM anyway
 set nobackup
