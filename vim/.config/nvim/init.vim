@@ -37,6 +37,7 @@ Plug 'honza/vim-snippets'
 
 " lang-specific
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'neovim/nvim-lspconfig'
 Plug 'elixir-editors/vim-elixir'
 " Plug 'mhinz/vim-mix-format'
 Plug 'MaxMEllon/vim-jsx-pretty'
@@ -44,6 +45,7 @@ Plug 'udalov/kotlin-vim'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --production' }
 Plug 'iamcco/coc-tailwindcss',  {'do': 'yarn install --frozen-lockfile && yarn run build'}
 Plug 'chrisbra/csv.vim'
+Plug 'pmizio/typescript-tools.nvim'
 
 " colors
 Plug 'arcticicestudio/nord-vim'
@@ -83,14 +85,20 @@ cnoreabbrev Ack Ack!
 
 " mix format
 let g:mix_format_elixir_bin_path = trim(system('asdf where elixir')) . '/bin'
-let g:mix_format_on_save = 1
+let g:mix_format_on_save = 0
+
+" While in visual mode, <C-r> to search and replace highlighted text
+vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 
 """ TreeSitter
 
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
   -- A list of parser names, or "all"
-  ensure_installed = {},
+  ensure_installed = {
+    "elixir",
+    "typescript",
+  },
 
   highlight = {
     -- false will disable the whole extension
@@ -111,6 +119,12 @@ require'nvim-treesitter.configs'.setup {
     enable = true,
     disable = { "elixir" },
   },
+}
+EOF
+
+lua <<EOF
+require("typescript-tools").setup {
+  tsserver_path = '/opt/bin/homebrew/typescript-language-server'
 }
 EOF
 
@@ -304,5 +318,5 @@ nnoremap <leader>t :tab split<CR>
 
 colorscheme dracula
 
-" :evimrc for editing the vim rc
+" :Evimrc for editing the vim rc
 command Evimrc edit $MYVIMRC
