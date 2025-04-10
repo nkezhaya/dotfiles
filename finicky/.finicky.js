@@ -11,6 +11,7 @@ module.exports = {
         "*.basic.space",
         "*.basic.space/*",
         "*basicspace*",
+        "*basic-space*",
         "docs.google.com",
         "sentry.io",
         "sentry.io/*"
