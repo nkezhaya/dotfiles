@@ -1,3 +1,4 @@
 #!/bin/bash
 
-echo -ne $(/opt/homebrew/bin/timew | head -n1) - $(/opt/homebrew/bin/timew today | tail -n2 | xargs) hrs today
+#echo -ne $(/opt/homebrew/bin/timew | head -n1) - $(/opt/homebrew/bin/timew today | tail -n2 | xargs) hrs today
+echo -ne $(/opt/homebrew/bin/timew | head -n1)

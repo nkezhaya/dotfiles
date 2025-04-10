@@ -1,6 +1,10 @@
 #!/bin/bash
 
-NON_NATIVE_SPACES=( $(yabai -m query --spaces | jq '.[] | select(."is-native-fullscreen" == false) | .index') )
-INDEX=$(expr $1 - 1)
+#CURRENT_SPACE=( $(yabai -m query --spaces | jq '.[] | select(."has-focus" == true) | .index') )
+INDEX=$1
 
-yabai -m space --focus ${NON_NATIVE_SPACES[$INDEX]}
+#if [[ $INDEX == 1 && $CURRENT_SPACE == 1 ]]; then
+#  yabai -m space --focus prev || yabai -m space --focus last
+#else
+  yabai -m space --focus $1
+#fi
