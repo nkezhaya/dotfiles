@@ -13,6 +13,8 @@ if [[ "$1" = "stop" ]]; then
   timew stop
 elif [[ "$1" = "bscall" ]]; then
   timew track BS Call
+elif [[ "$1" = "bsreview" ]]; then
+  timew track BS 'Review PRs'
 elif [[ $1 = cont* ]]; then
   arg=$1
   taskid=${arg:4}
@@ -36,4 +38,5 @@ while read -r proc; do
 done <<< "$(timew tagsum)"
 
 echo "BS Call | bash='$0' param1=bscall terminal=false refresh=true"
+echo "BS Review PRs | bash='$0' param1=bsreview terminal=false refresh=true"
 echo "Stop timewarrior | bash='$0' param1=stop terminal=false refresh=true"
