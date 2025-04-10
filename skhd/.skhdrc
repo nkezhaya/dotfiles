@@ -1,14 +1,15 @@
-ctrl - 1 : yb-focus-space 1
-ctrl - 2 : yb-focus-space 2
-ctrl - 3 : yb-focus-space 3
-ctrl - 4 : yb-focus-space 4
-ctrl - 5 : yb-focus-space 5
-ctrl - 6 : yb-focus-space 6
-ctrl - 7 : yb-focus-space 7
-ctrl - 8 : yb-focus-space 8
-ctrl - 9 : yb-focus-space 9
-ctrl - left : yabai -m space --focus prev || yabai -m space --focus last
-ctrl - right : yabai -m space --focus next || yabai -m space --focus first
+lctrl - 0x32 : yabai -m space --focus last
+lctrl - 1 : yb-focus-space 1
+lctrl - 2 : yb-focus-space 2
+lctrl - 3 : yb-focus-space 3
+lctrl - 4 : yb-focus-space 4
+lctrl - 5 : yb-focus-space 5
+lctrl - 6 : yb-focus-space 6
+lctrl - 7 : yb-focus-space 7
+lctrl - 8 : yb-focus-space 8
+lctrl - 9 : yb-focus-space 9
+lctrl - left : yabai -m space --focus prev || yabai -m space --focus last
+lctrl - right : yabai -m space --focus next || yabai -m space --focus first
 
 # create stack
 shift + alt + ctrl + cmd - h : yb-stack west
