@@ -1,5 +1,11 @@
 {
   "elixir.pathToElixirLS": "~/Code/elixir-ls/release/language_server.sh",
   "tailwindCSS.headwind.runOnSave": false,
-  "coc.preferences.jumpCommand": "tabe"
+  "coc.preferences.jumpCommand": "tabe",
+  "coc.source.file.disableSyntaxes": ["comment"],
+  "coc.source.buffer.disableSyntaxes": ["comment"],
+  "coc.source.around.disableSyntaxes": ["comment"],
+  "suggest.noselect": true,
+  "suggest.enablePreselect": false,
+  "suggest.removeCurrentWord": true
 }

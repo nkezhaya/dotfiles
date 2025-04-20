@@ -7,7 +7,6 @@ call plug#begin()
 " Sensible defaults
 Plug 'tpope/vim-sensible'
 
-Plug 'Shougo/defx.nvim'
 Plug 'mattn/emmet-vim'
 Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-fugitive'
@@ -26,13 +25,7 @@ Plug 'amiralies/coc-elixir', {'do': 'yarn install && yarn prepack'}
 Plug 'clangd/coc-clangd'
 
 " snippets
-"Plug 'garbas/vim-snipmate'
-"let g:snipMate = { 'snippet_version' : 1 }
 Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-
-Plug 'tomtom/tlib_vim'
-Plug 'MarcWeber/vim-addon-mw-utils'
 Plug 'honza/vim-snippets'
 
 " lang-specific
@@ -130,6 +123,16 @@ EOF
 
 """ CoC
 
+lua <<EOF
+vim.lsp.config.clangd = {
+  cmd = { 'clangd', '--background-index' },
+  root_markers = { 'compile_commands.json', 'compile_flags.txt' },
+  filetypes = { 'c', 'cpp' },
+}
+
+vim.lsp.enable({'clangd'})
+EOF
+
 " Escape to close floating windows
 nmap <Esc> :call coc#float#close_all() <CR>
 
@@ -140,11 +143,8 @@ nmap <silent> gf <Plug>(coc-definition)
 nmap <silent> gs :call CocAction('jumpDefinition', 'edit')<CR>
 
 " Enter to autocomplete
-inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+inoremap <silent><expr> <CR> coc#pum#has_item_selected() ? coc#pum#confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
-" ,<Tab>
-imap <C-j> <Plug>snipMateNextOrTrigger
 
 " Oil
 lua <<EOF
@@ -191,78 +191,7 @@ autocmd BufNewFile,BufRead *.html.heex set syntax=eelixir
 au FileType sql setl formatprg=/usr/local/bin/pg_format\ -
 vmap <C-f> <ESC>:'<,'>! pg_format --no-space-function --function-case 2<CR>
 
-" Defx options
-autocmd FileType defx call s:defx_my_settings()
-function! s:defx_my_settings() abort
-  " Define mappings
-  nnoremap <silent><buffer><expr> <CR>
-  \ defx#do_action('open')
-  nnoremap <silent><buffer><expr> c
-  \ defx#do_action('copy')
-  nnoremap <silent><buffer><expr> m
-  \ defx#do_action('move')
-  nnoremap <silent><buffer><expr> p
-  \ defx#do_action('paste')
-  nnoremap <silent><buffer><expr> l
-  \ defx#do_action('open')
-  nnoremap <silent><buffer><expr> E
-  \ defx#do_action('open', 'vsplit')
-  nnoremap <silent><buffer><expr> P
-  \ defx#do_action('preview')
-  nnoremap <silent><buffer><expr> o
-  \ defx#do_action('open_tree', 'toggle')
-  nnoremap <silent><buffer><expr> K
-  \ defx#do_action('new_directory')
-  nnoremap <silent><buffer><expr> N
-  \ defx#do_action('new_file')
-  nnoremap <silent><buffer><expr> M
-  \ defx#do_action('new_multiple_files')
-  nnoremap <silent><buffer><expr> C
-  \ defx#do_action('toggle_columns',
-  \                'mark:indent:icon:filename:type:size:time')
-  nnoremap <silent><buffer><expr> S
-  \ defx#do_action('toggle_sort', 'time')
-  nnoremap <silent><buffer><expr> d
-  \ defx#do_action('remove')
-  nnoremap <silent><buffer><expr> r
-  \ defx#do_action('rename')
-  nnoremap <silent><buffer><expr> !
-  \ defx#do_action('execute_command')
-  nnoremap <silent><buffer><expr> x
-  \ defx#do_action('execute_system')
-  nnoremap <silent><buffer><expr> yy
-  \ defx#do_action('yank_path')
-  nnoremap <silent><buffer><expr> .
-  \ defx#do_action('toggle_ignored_files')
-  nnoremap <silent><buffer><expr> ;
-  \ defx#do_action('repeat')
-  nnoremap <silent><buffer><expr> h
-  \ defx#do_action('cd', ['..'])
-  nnoremap <silent><buffer><expr> ~
-  \ defx#do_action('cd')
-  nnoremap <silent><buffer><expr> q
-  \ defx#do_action('quit')
-  nnoremap <silent><buffer><expr> <Space>
-  \ defx#do_action('toggle_select') . 'j'
-  nnoremap <silent><buffer><expr> *
-  \ defx#do_action('toggle_select_all')
-  nnoremap <silent><buffer><expr> j
-  \ line('.') == line('$') ? 'gg' : 'j'
-  nnoremap <silent><buffer><expr> k
-  \ line('.') == 1 ? 'G' : 'k'
-  nnoremap <silent><buffer><expr> <C-l>
-  \ defx#do_action('redraw')
-  nnoremap <silent><buffer><expr> <C-g>
-  \ defx#do_action('print')
-  nnoremap <silent><buffer><expr> cd
-  \ defx#do_action('change_vim_cwd')
-endfunction
-
-" I want to open defx window like explorer.
-nnoremap <leader>df :Defx `expand('%:p:h')` -split=vertical -winwidth=50 -direction=topleft -search=`expand('%:p')`<CR>
-
 " Ctrl-\ for netrw replacement
-" nnoremap <C-\> :Defx `expand('%:p:h')` -search=`expand('%:p')`<CR>
 nnoremap <C-\> :Oil<CR>
 
 " Turn backup off, since most stuff is in an SCM anyway
