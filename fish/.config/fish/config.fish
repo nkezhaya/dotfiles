@@ -7,6 +7,9 @@ set -g fish_user_paths "/opt/homebrew/bin" $fish_user_paths
 set -g GO_PATH "$HOME/go"
 set -g JAVA_HOME /usr/local/Cellar/openjdk/15.0.2
 
+# neovim is great for man pages
+set -gx MANPAGER "nvim +Man!"
+
 # Signing git commits
 set -gx GPG_TTY (tty)
 
