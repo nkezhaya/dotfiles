@@ -6,6 +6,7 @@ set -g fish_user_paths "/opt/homebrew/bin" $fish_user_paths
 
 set -g GO_PATH "$HOME/go"
 set -g JAVA_HOME /usr/local/Cellar/openjdk/15.0.2
+set -Ux EDITOR /opt/homebrew/bin/nvim
 
 # neovim is great for man pages
 set -gx MANPAGER "nvim +Man!"
