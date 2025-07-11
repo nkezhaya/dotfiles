@@ -150,6 +150,13 @@ inoremap <silent><expr> <CR> coc#pum#has_item_selected() ? coc#pum#confirm()
 lua <<EOF
   require("oil").setup({
     default_file_explorer = true,
+    view_options = {
+      show_hidden = true,
+      natural_order = true,
+      is_always_hidden = function(name, _)
+        return name == '..' or name == '.git'
+      end,
+    },
   })
 EOF
 
