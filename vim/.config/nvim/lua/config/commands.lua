@@ -14,28 +14,10 @@ vim.api.nvim_create_autocmd("BufReadPost", {
   desc = "Jump to the last position when opening a file",
 })
 
--- EEx highlighting in .heex files
-vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
-  pattern = "*.html.heex",
-  callback = function()
-    vim.opt_local.syntax = "eelixir"
-  end,
-})
-
 -- pgFormatter for SQL
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "sql",
   callback = function()
     vim.opt_local.formatprg = "/usr/local/bin/pg_format -"
-  end,
-})
-
--- EEx highlighting in Elixir modules
-vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
-  pattern = "*.ex,*.exs",
-  callback = function()
-    vim.cmd([[
-      syntax region elixirTemplateSigil matchgroup=elixirSigilDelimiter keepend start=+\~E\z("""\)+ end=+^\s*\z1+ skip=+\\"+ contains=@HTML fold
-    ]])
   end,
 })

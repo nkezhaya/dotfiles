@@ -11,9 +11,8 @@ return {
       nextls = { enable = false },
       elixirls = {
         enable = true,
-        cmd = "/Users/nkezhaya/Code/elixir-ls/release/language_server.sh",
         settings = elixirls.settings {
-          dialyzerEnabled = true, -- Disable dialyzer for faster startup
+          dialyzerEnabled = true,
           enableTestLenses = false,
           fetchDeps = false,
           suggestSpecs = false,
