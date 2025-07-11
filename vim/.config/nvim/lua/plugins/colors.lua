@@ -10,5 +10,17 @@ return {
     config = function()
       ColorMyPencils()
     end,
-  }
+  },
+  "arcticicestudio/nord-vim",
+  "Rigellute/rigel",
+  "cocopon/iceberg.vim",
+  "flrnd/candid.vim",
+  "morhetz/gruvbox",
+  "joshdick/onedark.vim",
+  "altercation/vim-colors-solarized",
+  { "embark-theme/vim", name = "embark" },
+  "sainnhe/sonokai",
+  "ghifarit53/tokyonight-vim",
+  "sainnhe/everforest",
+  "ayu-theme/ayu-vim",
 }

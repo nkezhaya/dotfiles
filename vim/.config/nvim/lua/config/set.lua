@@ -1,3 +1,7 @@
+-- Python host programs
+vim.g.python_host_prog = '/opt/homebrew/bin/python2'
+vim.g.python3_host_prog = '/opt/homebrew/bin/python3.10'
+
 vim.opt.number = true
 vim.opt.relativenumber = true
 
@@ -42,3 +46,7 @@ vim.opt.errorbells = false
 vim.opt.visualbell = false
 vim.opt.belloff = "all"
 vim.opt.tm = 500
+
+-- Mix format settings
+vim.g.mix_format_elixir_bin_path = vim.fn.trim(vim.fn.system('asdf where elixir')) .. '/bin'
+vim.g.mix_format_on_save = 0

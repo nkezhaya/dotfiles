@@ -1,21 +1,28 @@
 return {
   "elixir-tools/elixir-tools.nvim",
   version = "*",
-  event = { "BufReadPre", "BufNewFile" },
+  -- Only load for Elixir files, not on BufReadPre
+  ft = { "elixir", "eelixir", "heex", "surface" },
   config = function()
     local elixir = require("elixir")
     local elixirls = require("elixir.elixirls")
 
     elixir.setup {
-      nextls = {enable = false},
+      nextls = { enable = false },
       elixirls = {
         enable = true,
         cmd = "/Users/nkezhaya/Code/elixir-ls/release/language_server.sh",
         settings = elixirls.settings {
-          dialyzerEnabled = true,
+          dialyzerEnabled = true, -- Disable dialyzer for faster startup
           enableTestLenses = false,
+          fetchDeps = false,
+          suggestSpecs = false,
+          autoInsertRequiredAlias = false,
+          signatureAfterComplete = false,
         },
         on_attach = function(client, bufnr)
+          -- Disable semantic tokens for faster rendering
+          client.server_capabilities.semanticTokensProvider = nil
         end,
       },
       projectionist = {
