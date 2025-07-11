@@ -1,9 +1,20 @@
-module.exports = {
+export default {
   defaultBrowser: {
     name: "Google Chrome",
     profile: "Profile 1"
   },
   handlers: [
+    {
+      match: [
+        "*elconline*",
+        "*elc-online*",
+        "*estee*"
+      ],
+      browser: {
+        name: "Google Chrome",
+        profile: "ELC"
+      }
+    },
     {
       match: [
         "basic.space",
@@ -18,21 +29,21 @@ module.exports = {
       ],
       browser: {
         name: "Google Chrome",
-        profile: "Profile 2"
+        profile: "BS"
       }
     },
     {
       match: ["amazon.com", "amazon.com/*"],
       browser: {
         name: "Google Chrome",
-        profile: "Profile 1"
+        profile: "Nick@WPC"
       }
     },
     {
       match: ["quickbooks.com", "quickbooks.com/*", "intuit.com", "intuit.com/*", "qbo.intuit.com", "qbo.intuit.com/*"],
       browser: {
         name: "Google Chrome",
-        profile: "Profile 1"
+        profile: "Nick@WPC"
       }
     },
     {
