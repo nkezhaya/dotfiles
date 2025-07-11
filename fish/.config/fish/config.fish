@@ -24,9 +24,10 @@ pyenv init - fish | source
 fish_add_path /Users/nkezhaya/.spicetify
 
 # asdf
-fish_add_path "$ASDF_DIR/bin"
-fish_add_path "$HOME/.asdf/shims"
-
-if status --is-interactive && type -q asdf
-  source (brew --prefix asdf)/libexec/asdf.fish
+if test -z $ASDF_DATA_DIR
+    set _asdf_shims "$HOME/.asdf/shims"
+else
+    set _asdf_shims "$ASDF_DATA_DIR/shims"
 end
+set -gx --prepend PATH $_asdf_shims
+set --erase _asdf_shims
