@@ -36,10 +36,11 @@ style = "Block"
 unfocused_hollow = true
 
 [font]
-size = 14.0
+size = 18.0
 
 [font.normal]
-family = "JetBrains Mono"
+# family = "JetBrains Mono Nerd Font"
+family = "Monaco"
 
 [font.glyph_offset]
 x = 0
