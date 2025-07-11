@@ -8,7 +8,7 @@ vim.opt.relativenumber = true
 vim.opt.scrolloff = 5
 vim.opt.foldlevel = 9999
 vim.opt.foldenable = false
-vim.opt.clipboard = unnamed
+vim.opt.clipboard = 'unnamed'
 vim.opt.termguicolors = true
 vim.opt.completeopt:append('noinsert')
 vim.opt.completeopt:remove('preview')
@@ -46,7 +46,3 @@ vim.opt.errorbells = false
 vim.opt.visualbell = false
 vim.opt.belloff = "all"
 vim.opt.tm = 500
-
--- Mix format settings
-vim.g.mix_format_elixir_bin_path = vim.fn.trim(vim.fn.system('asdf where elixir')) .. '/bin'
-vim.g.mix_format_on_save = 0
