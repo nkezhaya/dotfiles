@@ -17,6 +17,9 @@ set -gx GPG_TTY (tty)
 # Ruby, rbenv
 status --is-interactive; and source (rbenv init -|psub)
 
+# pyenv
+pyenv init - fish | source
+
 # Spicetify
 fish_add_path /Users/nkezhaya/.spicetify
 
