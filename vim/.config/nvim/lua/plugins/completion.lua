@@ -41,14 +41,14 @@ return {
       -- Only show the documentation popup when manually triggered
       completion = { 
         documentation = { auto_show = false },
-        -- Don't auto-select first item to match CoC behavior
+        -- Don't auto-select first item
         list = { selection = { preselect = false, auto_insert = false } }
       },
 
       -- Default list of enabled providers defined so that you can extend it
       -- elsewhere in your config, without redefining it, due to `opts_extend`
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer' },
+        default = { 'lsp', 'path', 'buffer' },
       },
 
       -- Rust fuzzy matcher for performance

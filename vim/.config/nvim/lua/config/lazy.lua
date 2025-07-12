@@ -17,6 +17,7 @@ require("lazy").setup({
   },
   install = { colorscheme = { "dracula" } },
   checker = { enabled = true },
+  change_detection = { notify = false },
 })
 
 return {}

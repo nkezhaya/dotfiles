@@ -1,0 +1,15 @@
+{
+	"name": "custom-snippets",
+	"contributes": {
+		"snippets": [
+			{
+				"language": ["elixir"],
+				"path": "./elixir.json"
+			},
+			{
+				"language": ["eelixir", "heex"],
+				"path": "./eelixir.json"
+			}
+		]
+	}
+}

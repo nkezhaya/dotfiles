@@ -1,0 +1,14 @@
+{
+	"eelse": {
+		"prefix": "eelse",
+		"body": [
+			"<% else %>"
+		]
+	},
+	"eend": {
+		"prefix": "eend",
+		"body": [
+			"<% end %>"
+		]
+	}
+}

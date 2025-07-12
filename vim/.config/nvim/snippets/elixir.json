@@ -1,0 +1,8 @@
+{
+	"inspect": {
+		"prefix": "ioi",
+		"body": [
+			"|> IO.inspect()"
+		]
+	}
+}
