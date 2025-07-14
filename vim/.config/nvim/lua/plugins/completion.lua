@@ -22,10 +22,10 @@ return {
 
         ['<Tab>'] = {
           function(cmp)
-            if cmp.snippet_active() then
-              return cmp.accept()
-            else
-              return cmp.select_and_accept()
+            for idx, item in ipairs(cmp.get_items()) do
+              if item.source_id == "snippets" and item.exact then
+                return cmp.accept({ index = idx })
+              end
             end
           end,
           'snippet_forward',
