@@ -26,10 +26,6 @@ return {
         
         -- Enter accepts completion ONLY if an item is selected
         ['<CR>'] = { 'accept', 'fallback' },
-        
-        -- Tab for snippet navigation
-        ['<Tab>'] = { 'snippet_forward', 'fallback' },
-        ['<S-Tab>'] = { 'snippet_backward', 'fallback' },
       },
 
       appearance = {
@@ -42,13 +38,13 @@ return {
       completion = { 
         documentation = { auto_show = false },
         -- Don't auto-select first item
-        list = { selection = { preselect = false, auto_insert = false } }
+        list = { selection = { preselect = false, auto_insert = true } }
       },
 
       -- Default list of enabled providers defined so that you can extend it
       -- elsewhere in your config, without redefining it, due to `opts_extend`
       sources = {
-        default = { 'lsp', 'path', 'buffer' },
+        default = { 'lsp', 'path', 'snippets', 'buffer' },
       },
 
       -- Rust fuzzy matcher for performance
