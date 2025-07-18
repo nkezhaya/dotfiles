@@ -2,3 +2,4 @@ vim/.config/nvim/plugged
 vim/.config/nvim/.netrwhist
 tmux/.config/tmux/plugins
 timewarrior/.timewarrior/data
+vim/.config/nvim/lazy-lock.json
