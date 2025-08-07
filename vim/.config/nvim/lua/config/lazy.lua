@@ -15,9 +15,17 @@ require("lazy").setup({
   spec = {
     { import = "plugins" },
   },
-  install = { colorscheme = { "dracula" } },
-  checker = { enabled = true },
-  change_detection = { notify = false },
+  install = {
+    colorscheme = { "dracula" }
+  },
+  checker = {
+    enabled = true,
+    notify = true,
+    frequency = 60 * 60 * 24 * 7 -- weekly
+  },
+  change_detection = {
+    notify = false
+  },
 })
 
 return {}
