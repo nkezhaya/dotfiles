@@ -10,15 +10,12 @@ function tmux-dev
     new-window -n stat_window \; \
     new-window -n stat_window \; \
     select-window -t 0 \; \
-    new-session -c ~/Code/BasicSpace/basic_space -n basic_space -s bs \; \
-    split-window -h \; \
-    select-pane -t 1 \; \
+    new-session -c ~/Code/loki -n elc -s elc \; \
     split-window -v \; \
-    new-window -n basic_space \; \
-    new-window -n basic_space \; \
-    new-window -n basic_space \; \
-    new-window -n basic_space \; \
-    new-window -n Basic\ Space -c ~/Code/BasicSpace/Basic\ Space \; \
-    new-window -n basic_space \; \
+    new-window -n elc \; \
+    new-window -n elc \; \
+    new-window -n elc \; \
+    new-window -n elc \; \
+    new-window -n elc \; \
     select-window -t 0 \;
 end
