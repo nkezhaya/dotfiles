@@ -7,7 +7,7 @@
 				"path": "./elixir.json"
 			},
 			{
-				"language": ["eelixir", "heex"],
+				"language": ["elixir", "eelixir", "heex"],
 				"path": "./eelixir.json"
 			}
 		]
