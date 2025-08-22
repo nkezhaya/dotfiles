@@ -8,7 +8,8 @@ export default {
       match: [
         "*elconline*",
         "*elc-online*",
-        "*estee*"
+        "*estee*",
+        "*loki*"
       ],
       browser: {
         name: "Google Chrome",
