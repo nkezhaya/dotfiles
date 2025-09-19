@@ -1,45 +1,9 @@
 export default {
   defaultBrowser: {
     name: "Google Chrome",
-    profile: "Profile 1"
+    profile: "Nick@WPC"
   },
   handlers: [
-    {
-      match: [
-        "*elconline*",
-        "*elc-online*",
-        "*estee*",
-        "*loki*"
-      ],
-      browser: {
-        name: "Google Chrome",
-        profile: "ELC"
-      }
-    },
-    {
-      match: [
-        "basic.space",
-        "basic.space/*",
-        "*.basic.space",
-        "*.basic.space/*",
-        "*basicspace*",
-        "*basic-space*",
-        "docs.google.com",
-        "sentry.io",
-        "sentry.io/*"
-      ],
-      browser: {
-        name: "Google Chrome",
-        profile: "BS"
-      }
-    },
-    {
-      match: ["amazon.com", "amazon.com/*"],
-      browser: {
-        name: "Google Chrome",
-        profile: "Nick@WPC"
-      }
-    },
     {
       match: ["quickbooks.com", "quickbooks.com/*", "intuit.com", "intuit.com/*", "qbo.intuit.com", "qbo.intuit.com/*"],
       browser: {
