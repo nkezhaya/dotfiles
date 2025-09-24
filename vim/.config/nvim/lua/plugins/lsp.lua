@@ -2,8 +2,6 @@ return {
   {
     "neovim/nvim-lspconfig",
     config = function()
-      local lspconfig = require("lspconfig")
-      
       -- Global LSP keymaps that apply to all LSP servers
       vim.api.nvim_create_autocmd("LspAttach", {
         group = vim.api.nvim_create_augroup("UserLspConfig", {}),
@@ -22,10 +20,10 @@ return {
       })
       
       -- clangd setup
-      lspconfig.clangd.setup({
+      vim.lsp.config("clangd", {
         cmd = { "clangd", "--background-index" },
         filetypes = { "c", "cpp" },
-        root_dir = lspconfig.util.root_pattern("compile_commands.json", "compile_flags.txt", ".git"),
+        root_markers = { "compile_commands.json", "compile_flags.txt", ".git" },
       })
     end,
   },
