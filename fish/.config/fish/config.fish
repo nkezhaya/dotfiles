@@ -6,13 +6,16 @@ set -g fish_user_paths "/opt/homebrew/bin" $fish_user_paths
 
 set -g GO_PATH "$HOME/go"
 set -g JAVA_HOME /usr/local/Cellar/openjdk/15.0.2
-set -Ux EDITOR /opt/homebrew/bin/nvim
+set -gx EDITOR /opt/homebrew/bin/nvim
 
 # neovim is great for man pages
 set -gx MANPAGER "nvim +Man!"
 
 # Signing git commits
 set -gx GPG_TTY (tty)
+
+# Faster compile times, set to half of the num CPU cores
+set -gx MIX_OS_DEPS_COMPILE_PARTITION_COUNT (math (sysctl -n hw.ncpu) / 2)
 
 # Ruby, rbenv
 status --is-interactive; and source (rbenv init -|psub)
