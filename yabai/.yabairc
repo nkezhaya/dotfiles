@@ -78,7 +78,7 @@ function org {
 
 yb-balance --bsp
 
-query='("VimR","iTerm2","Code")'
+query='("VimR","iTerm2","Alacritty","Code")'
 
 for space in $(seq 1 2); do
   yabai -m query --windows --space $space | jq -c ".[] | select(.app == $query)" | jq -c -s | org west
