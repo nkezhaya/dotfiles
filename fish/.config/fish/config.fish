@@ -21,6 +21,7 @@ set -gx MIX_OS_DEPS_COMPILE_PARTITION_COUNT (math (sysctl -n hw.ncpu) / 2)
 status --is-interactive; and source (rbenv init -|psub)
 
 # pyenv
+set -gx PYENV_ROOT "$HOME/.pyenv"
 pyenv init - fish | source
 
 # Spicetify
