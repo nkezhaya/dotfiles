@@ -29,3 +29,7 @@ fish_add_path /Users/nkezhaya/.spicetify
 
 # mise
 mise activate fish | source
+
+if test -e config.local.fish
+  source config.local.fish
+end
