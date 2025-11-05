@@ -1,5 +1,6 @@
 fish/.config/fish/config.local.fish
 vim/.config/nvim/plugged
+vim/.config/nvim/lua/config/local.lua
 vim/.config/nvim/.netrwhist
 tmux/.config/tmux/plugins
 timewarrior/.timewarrior/data
