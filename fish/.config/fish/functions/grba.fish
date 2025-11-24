@@ -1,3 +1,3 @@
-function grba --description 'alias grba grba --continue'
-    command grba --continue $argv
+function grba --wraps='grb --abort' --description 'alias grba grb --abort'
+    grb --abort $argv
 end
