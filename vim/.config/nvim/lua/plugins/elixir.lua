@@ -10,6 +10,7 @@ return {
     elixir.setup {
       nextls = { enable = false },
       elixirls = {
+        tag = "v0.30.0",
         enable = true,
         settings = elixirls.settings {
           dialyzerEnabled = true,
