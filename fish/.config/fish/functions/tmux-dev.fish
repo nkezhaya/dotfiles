@@ -10,12 +10,12 @@ function tmux-dev
     new-window -n stat_window \; \
     new-window -n stat_window \; \
     select-window -t 0 \; \
-    new-session -c ~/Code/loki -n elc -s elc \; \
+    new-session -c ~/Code/harbor -n harbor -s harbor \; \
     split-window -v \; \
-    new-window -n elc \; \
-    new-window -n elc \; \
-    new-window -n elc \; \
-    new-window -n elc \; \
-    new-window -n elc \; \
+    new-window -n harbor \; \
+    new-window -n harbor \; \
+    new-window -n harbor \; \
+    new-window -n harbor \; \
+    new-window -n harbor \; \
     select-window -t 0 \;
 end
