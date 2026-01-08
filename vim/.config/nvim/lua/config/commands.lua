@@ -2,6 +2,11 @@ vim.api.nvim_create_user_command("Evimrc", function()
   vim.cmd("edit " .. vim.env.MYVIMRC)
 end, {})
 
+-- Update plugins
+vim.api.nvim_create_user_command("Eupdate", function()
+  vim.cmd("Lazy update")
+end, {})
+
 -- Autocmds
 vim.api.nvim_create_autocmd("BufReadPost", {
   pattern = "*",
