@@ -3,6 +3,7 @@ set -g fish_user_paths "$HOME/go/bin" $fish_user_paths
 set -g fish_user_paths "/usr/local/sbin" $fish_user_paths
 set -g fish_user_paths "/usr/local/opt/node@10/bin" $fish_user_paths
 set -g fish_user_paths "/opt/homebrew/bin" $fish_user_paths
+set -g fish_user_paths "$HOME/.local/bin" $fish_user_paths
 
 set -g GO_PATH "$HOME/go"
 set -g JAVA_HOME /usr/local/Cellar/openjdk/15.0.2
