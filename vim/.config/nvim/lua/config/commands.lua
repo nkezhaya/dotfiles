@@ -19,6 +19,14 @@ vim.api.nvim_create_autocmd("BufReadPost", {
   desc = "Jump to the last position when opening a file",
 })
 
+-- LSP format on save
+vim.api.nvim_create_autocmd("BufWritePre", {
+    pattern = {"*.ex", "*.exs", "*.heex"},
+    callback = function()
+      vim.lsp.buf.format()
+    end,
+})
+
 -- pgFormatter for SQL
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "sql",
