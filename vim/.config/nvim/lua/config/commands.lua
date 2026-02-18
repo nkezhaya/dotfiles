@@ -19,6 +19,12 @@ vim.api.nvim_create_autocmd("BufReadPost", {
   desc = "Jump to the last position when opening a file",
 })
 
+-- Reload changed files
+vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
+  command = "if mode() != 'c' | checktime | endif",
+  pattern = { "*" },
+})
+
 -- LSP format on save
 vim.api.nvim_create_autocmd("BufWritePre", {
     pattern = {"*.ex", "*.exs", "*.heex"},
