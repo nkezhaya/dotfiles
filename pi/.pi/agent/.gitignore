@@ -2,3 +2,4 @@ auth.json
 bin
 sessions
 update-cache.json
+run-history.jsonl
