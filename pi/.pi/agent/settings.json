@@ -8,6 +8,7 @@
     "npm:pi-web-access",
     "npm:pi-markdown-preview",
     "npm:pi-updater",
-    "npm:pi-nvim"
+    "npm:pi-nvim",
+    "npm:pi-subagents"
   ]
 }
