@@ -225,6 +225,11 @@ key = "Right"
 mode = "AppCursor"
 
 [[keyboard.bindings]]
+key = "Enter"
+mods = "Shift"
+chars = "\u001B[13;2u"
+
+[[keyboard.bindings]]
 chars = "\u001B[1;2A"
 key = "Up"
 mods = "Shift"
