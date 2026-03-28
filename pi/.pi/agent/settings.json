@@ -7,7 +7,6 @@
     "npm:pi-powerline-footer",
     "npm:pi-web-access",
     "npm:pi-updater",
-    "npm:pi-nvim",
     "npm:pi-subagents"
   ],
   "hideThinkingBlock": false
