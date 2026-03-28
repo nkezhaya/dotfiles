@@ -22,10 +22,11 @@ Prefer reuse in this order:
 Treat direct access to framework internals as suspicious when a public helper likely exists.
 
 Examples:
-- accessing `changeset.changes` directly instead of `changed?/2`, `fetch_change/2`, `get_change/3`, `get_field/3`, or `get_assoc/3`
+- accessing `changeset.changes` or `changeset.data` directly instead of `changed?/2`, `fetch_change/2`, `get_change/3`, `get_field/3`, or `get_assoc/3`
 - manually formatting labels or names instead of `Phoenix.Naming.humanize/1`
 - manual nested form plumbing instead of `to_form/2`, `Phoenix.Component.form/1`, and `inputs_for`
 - manual relation or changeset inspection that bypasses Ecto relation-aware helpers
+- branching or wrapper helpers around public Phoenix/Ecto APIs that already handle nil, empty, or unloaded values safely, such as `Repo.preload/2`
 
 Do not recommend churn for its own sake. The replacement must be clearer, more idiomatic, and semantically honest.
 
@@ -72,6 +73,7 @@ Look especially for these:
 - `<.form let={f}>` when direct `@form[:field]` access is the idiomatic pattern
 - manual nested form indexing or loops where `inputs_for` should be used
 - raw HTML string assertions in LiveView tests instead of DOM-based assertions
+- manual branching before `Repo.preload/2` or similar public APIs when the API already accepts the current shape safely
 
 ### Phoenix helpers and naming
 - manual humanization or label formatting that should use `Phoenix.Naming.humanize/1`
@@ -98,6 +100,7 @@ When semantics line up, strongly prefer these kinds of replacements:
 - `Phoenix.Component.to_form/2`
 - `Phoenix.Component.form/1`
 - `Phoenix.Component.inputs_for/1`
+- direct `Repo.preload/2` when the current input shape is already one the API safely accepts
 
 Also check whether the repo already has a preferred helper that should be used instead of the framework primitive.
 
