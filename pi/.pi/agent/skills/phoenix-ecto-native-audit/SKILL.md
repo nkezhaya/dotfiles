@@ -22,7 +22,7 @@ Prefer reuse in this order:
 Treat direct access to framework internals as suspicious when a public helper likely exists.
 
 Examples:
-- accessing `changeset.changes` or `changeset.data` directly instead of `changed?/2`, `fetch_change/2`, `get_change/3`, `get_field/3`, or `get_assoc/3`
+- accessing `changeset.changes` or `changeset.data` directly instead of `changed?/2`, `fetch_change/2`, `get_change/3`, `get_field/3` for plain fields, or `get_assoc/3` for associations
 - manually formatting labels or names instead of `Phoenix.Naming.humanize/1`
 - manual nested form plumbing instead of `to_form/2`, `Phoenix.Component.form/1`, and `inputs_for`
 - manual relation or changeset inspection that bypasses Ecto relation-aware helpers
@@ -63,7 +63,8 @@ Look especially for these:
 - `Map.get(changeset.changes, field)`
 - direct reads of `changeset.changes`, `changeset.data`, or relation internals
 - custom change-detection helpers that duplicate `changed?/2`, `fetch_change/2`, `get_change/3`, or `fetch_field/2`
-- manual relation inspection where `get_assoc/3` or `get_field/3` would be clearer
+- manual relation inspection where `get_assoc/3` would be clearer
+- `get_field(changeset, :some_assoc)` on associations instead of `get_assoc/2` or `get_assoc/3`
 - parent changesets peeking into child fields like `value.name` when the child changeset should own validity
 - custom wrappers around obvious Ecto validations or constraints
 
@@ -90,8 +91,8 @@ When semantics line up, strongly prefer these kinds of replacements:
 - `Ecto.Changeset.changed?/2`
 - `Ecto.Changeset.fetch_change/2`
 - `Ecto.Changeset.get_change/3`
-- `Ecto.Changeset.get_field/3`
-- `Ecto.Changeset.get_assoc/3`
+- `Ecto.Changeset.get_field/3` for plain fields, not associations
+- `Ecto.Changeset.get_assoc/2` or `Ecto.Changeset.get_assoc/3` for associations
 - `Ecto.Changeset.fetch_field/2`
 - `Ecto.Changeset.validate_required/3`
 - `Ecto.Changeset.unique_constraint/3`
@@ -103,6 +104,17 @@ When semantics line up, strongly prefer these kinds of replacements:
 - direct `Repo.preload/2` when the current input shape is already one the API safely accepts
 
 Also check whether the repo already has a preferred helper that should be used instead of the framework primitive.
+
+## Association Retrieval Rule
+
+For associations, do not use or recommend `get_field(changeset, :some_assoc)`.
+
+Instead:
+- use `get_assoc(changeset, :some_assoc, :struct)` when the caller explicitly needs associated structs
+- use `get_assoc(changeset, :some_assoc)` when the caller wants association changesets, or when either representation would work
+- if it does not matter, prefer `get_assoc(changeset, :some_assoc)` because it is shorter and keeps the code relation-aware
+
+Treat `get_field/3` on associations as a high-confidence replacement opportunity unless the code is intentionally working with a non-association field of the same name.
 
 ## What Not to Report
 
