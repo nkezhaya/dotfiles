@@ -2,7 +2,7 @@ import type { ExtensionAPI, ExtensionContext } from "@mariozechner/pi-coding-age
 import { Text } from "@mariozechner/pi-tui";
 import { Type } from "@sinclair/typebox";
 
-type AmbiguityMode = "conservative" | "moderate" | "aggressive";
+type AmbiguityMode = "off" | "conservative" | "moderate" | "aggressive";
 
 interface AmbiguityConfig {
 	mode: AmbiguityMode;
@@ -58,18 +58,21 @@ const AskForGuidanceParams = Type.Object({
 });
 
 function defaultConfig(): AmbiguityConfig {
-	return { mode: "moderate" };
+	return { mode: "off" };
 }
 
 function isMode(value: string): value is AmbiguityMode {
-	return value === "conservative" || value === "moderate" || value === "aggressive";
+	return value === "off" || value === "conservative" || value === "moderate" || value === "aggressive";
 }
 
-function statusText(mode: AmbiguityMode): string {
-	return `ambiguity:${mode}`;
+function statusText(mode: AmbiguityMode): string | undefined {
+	return mode === "off" ? undefined : `ambiguity:${mode}`;
 }
 
 function modePolicy(mode: AmbiguityMode): string {
+	if (mode === "off") {
+		return "";
+	}
 	if (mode === "conservative") {
 		return "Only ask when ambiguity is high-impact: architecture, public interfaces, failure semantics, invariants, trust boundaries, or broad refactors that would be annoying to undo.";
 	}
@@ -101,12 +104,18 @@ export default function ambiguityGate(pi: ExtensionAPI) {
 		}
 	}
 
+	function shouldInjectPrompt(): boolean {
+		if (config.mode === "off") return false;
+		const activeTools = new Set(pi.getActiveTools());
+		return activeTools.has("ask_for_guidance") && (activeTools.has("edit") || activeTools.has("write"));
+	}
+
 	function persistConfig() {
 		pi.appendEntry<AmbiguityConfig>("ambiguity-config", { ...config });
 	}
 
 	pi.registerCommand("ambiguity", {
-		description: "Show or set ambiguity guidance mode: conservative, moderate, aggressive",
+		description: "Show or set ambiguity guidance mode: off, conservative, moderate, aggressive",
 		handler: async (args, ctx) => {
 			const value = args.trim().toLowerCase();
 			if (!value || value === "show" || value === "status") {
@@ -116,7 +125,7 @@ export default function ambiguityGate(pi: ExtensionAPI) {
 			}
 
 			if (!isMode(value)) {
-				ctx.ui.notify("Usage: /ambiguity [conservative|moderate|aggressive|show]", "warning");
+				ctx.ui.notify("Usage: /ambiguity [off|conservative|moderate|aggressive|show]", "warning");
 				return;
 			}
 
@@ -143,11 +152,19 @@ export default function ambiguityGate(pi: ExtensionAPI) {
 	});
 
 	pi.on("before_agent_start", async (event) => {
+		if (!shouldInjectPrompt()) {
+			return;
+		}
+
 		const policy = modePolicy(config.mode);
 		return {
 			systemPrompt:
 				event.systemPrompt +
-				`\n\nAmbiguity guidance policy (${config.mode}): ${policy} When that happens, call the ask_for_guidance tool before making edits. Ask concise, decision-focused questions with concrete options. If the user chooses chat, stop editing, discuss the tradeoffs conversationally, and wait for clear direction before proceeding.`,
+				`\n\nAmbiguity guidance policy (${config.mode}): ${policy}
+
+Before editing, check for consequential ambiguity about scope, invariants, boundary assumptions, error handling, architecture, persistence, trust boundaries, or user-visible behavior. If a wrong assumption would be annoying to undo, do not guess; call ask_for_guidance first.
+
+Ask one concise question with 2-5 concrete options. If the user chooses chat, stop editing and discuss before proceeding.`,
 		};
 	});
 
