@@ -149,9 +149,37 @@ export default function githubHelper(pi: ExtensionAPI) {
 		return { owner: repo.owner.login, repo: repo.name, nameWithOwner: repo.nameWithOwner };
 	}
 
-	async function resolvePrNumberFromCurrentBranch(ctx: ExtensionContext): Promise<number> {
-		const pr = await runGhJson<{ number: number }>(["pr", "view", "--json", "number"], ctx);
-		return pr.number;
+	async function getCurrentBranch(ctx: ExtensionContext): Promise<string | null> {
+		const result = await pi.exec("git", ["branch", "--show-current"], {});
+		if (result.code !== 0) return null;
+		const branch = result.stdout.trim();
+		return branch || null;
+	}
+
+	async function resolvePrNumberFromCurrentBranch(ctx: ExtensionContext): Promise<{ number: number; branch: string | null }> {
+		const branch = await getCurrentBranch(ctx);
+		try {
+			const pr = await runGhJson<{ number: number }>(["pr", "view", "--json", "number"], ctx);
+			return { number: pr.number, branch };
+		} catch (viewError) {
+			if (!branch) throw viewError;
+		}
+
+		if (!branch) {
+			throw new Error("Could not determine the current branch. Use /gh pr <number> explicitly.");
+		}
+		const branchName = branch;
+		const prs = await runGhJson<Array<{ number: number }>>(
+			["pr", "list", "--head", branchName, "--state", "all", "--json", "number"],
+			ctx,
+		);
+		if (prs.length === 1) {
+			return { number: prs[0].number, branch: branchName };
+		}
+		if (prs.length > 1) {
+			throw new Error(`Multiple PRs match branch '${branchName}'. Use /gh pr <number> explicitly.`);
+		}
+		throw new Error(`Could not find a PR for branch '${branchName}'. Use /gh pr <number> explicitly.`);
 	}
 
 	async function getPrData(number: number, ctx: ExtensionContext): Promise<PullRequestData> {
@@ -372,7 +400,7 @@ export default function githubHelper(pi: ExtensionAPI) {
 			const subcommand = subcommandRaw?.toLowerCase();
 
 			if (!subcommand) {
-				ctx.ui.notify("Usage: /gh pr [number] | issue <number> | context | reply | status | clear", "info");
+				ctx.ui.notify("Usage: /gh pr [number] | issue <number> | context | reply | status | clear (omit PR number to infer from branch)", "info");
 				return;
 			}
 
@@ -394,16 +422,34 @@ export default function githubHelper(pi: ExtensionAPI) {
 			}
 
 			if (subcommand === "pr") {
-				const number = rest[0] ? Number(rest[0]) : await resolvePrNumberFromCurrentBranch(ctx);
+				let number: number;
+				let inferredBranch: string | null = null;
+				if (rest[0]) {
+					number = Number(rest[0]);
+				} else {
+					try {
+						const resolved = await resolvePrNumberFromCurrentBranch(ctx);
+						number = resolved.number;
+						inferredBranch = resolved.branch;
+					} catch (error) {
+						ctx.ui.notify(error instanceof Error ? error.message : "Could not infer PR from current branch", "warning");
+						return;
+					}
+				}
 				if (!Number.isInteger(number) || number <= 0) {
-					ctx.ui.notify("Usage: /gh pr [number]", "warning");
+					ctx.ui.notify("Usage: /gh pr [number] (omit number to infer from branch)", "warning");
 					return;
 				}
 				const pr = await getPrData(number, ctx);
 				state = { activeTarget: { kind: "pr", number } };
 				persistState();
 				syncStatus(ctx);
-				ctx.ui.notify(`Active PR set to #${pr.number}: ${pr.title}`, "info");
+				ctx.ui.notify(
+					inferredBranch
+						? `Active PR set to #${pr.number}: ${pr.title} (from branch ${inferredBranch})`
+						: `Active PR set to #${pr.number}: ${pr.title}`,
+					"info",
+				);
 				return;
 			}
 
@@ -423,7 +469,7 @@ export default function githubHelper(pi: ExtensionAPI) {
 
 			if (subcommand === "context") {
 				if (!state.activeTarget) {
-					ctx.ui.notify("Set an active target first with /gh pr [number] or /gh issue <number>", "warning");
+					ctx.ui.notify("Set an active target first with /gh pr [number] (/gh pr infers from branch) or /gh issue <number>", "warning");
 					return;
 				}
 				if (state.activeTarget.kind === "issue") {
@@ -446,7 +492,7 @@ export default function githubHelper(pi: ExtensionAPI) {
 
 			if (subcommand === "reply") {
 				if (!state.activeTarget || state.activeTarget.kind !== "pr") {
-					ctx.ui.notify("Set an active PR first with /gh pr [number]", "warning");
+					ctx.ui.notify("Set an active PR first with /gh pr [number] (or just /gh pr on a PR branch)", "warning");
 					return;
 				}
 				const { pr, threads } = await getReviewThreads(state.activeTarget.number, ctx);
